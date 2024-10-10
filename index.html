@@ -51,7 +51,25 @@
                 </div>
               </div>
             </div>
-          </div>
+
+            <!-- resultado busquedas  -->
+            <h2 class="text-4xl font-bold mb-4 mt-20 ml-8">Resultados</h2> 
+            <p id="total-results" class="text-center text-lg font-bold mb-4"></p>
+            <div id="loader" class="flex justify-center items-center">
+                <div class="custom-loader"></div>
+            </div>
+            <div id="cards-container" class="flex flex-wrap justify-center gap-6 p-5">
+                <div class="card bg-gray-100 border border-gray-300 rounded-lg flex flex-col p-4 w-64 text-center shadow-2xl transition-transform duration-300 hover:scale-105">
+                    <img src="ruta-de-la-imagen" alt="comic" class="w-full h-72 object-fill">
+                    <h3 class="text-lg mt-3 font-bold font-serif uppercase">desciption</h3>
+                </div>
+            </div>
+        </div>
+      </main>
+      <footer class="footer-comic">
+        <p class="footer-text">Hecho con ❤️ por Romina</p>
+      </footer>
     </main>
+    <script src="main.js"></script>
 </body>
 </html>
