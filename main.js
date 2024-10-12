@@ -7,6 +7,7 @@ const hash = "3625cd0f9789029f5d8d27b459b86464";
 
 // DOM 
 const cardsContainer = document.getElementById("cards-container");
+const marvelSelect = document.getElementById("marvel-select");
 
 // TOTAL RESULTADOS
 const total = document.getElementById("total-results");
@@ -62,6 +63,19 @@ function loadMarvelContent(endpoint, searchValue = "", searchType = "") {
         })
         .catch((error) => console.error("Error al obtener los datos:", error));
 }
+
+// Click en el botón buscar
+const searchButton = document.getElementById("btn-search");
+searchButton.addEventListener("click", () => {
+    const selectedValue = marvelSelect.value.toUpperCase();
+    const searchValue = document.getElementById("input-search").value.trim();
+    if (selectedValue === "PERSONAJES") {
+        loadMarvelContent("characters", searchValue, "name");
+    } else if (selectedValue === "COMICS") {
+        loadMarvelContent("comics", searchValue, "title");
+    }
+});
+
 
 function showLoader() {
     document.getElementById("loader").style.display = "block";
