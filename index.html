@@ -1,94 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <title>Document</title>
-</head>
-<body>
-    <header class="relative h-64 flex items-center justify-center">
-        <!-- Imagen de fondo -->
-        <div class="absolute inset-0">
-            <img class="w-full h-full object-cover filter blur-sm" src="/assets/marvel-comics.jpg" alt="fondo Marvel">
-        </div>
-        <!-- Contenedor del título con degradado -->
-        <div class="relative bg-red-600 p-4 rounded-full">
-            <h1 class="text-5xl font-bold text-white">ADA COMICS</h1>
-        </div>
-    </header>
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+      <script src="https://cdn.tailwindcss.com"></script>
+      <title>Document</title>
+  </head>
+  <body>
+      <header class="relative h-64 flex items-center justify-center">
+          <!-- Imagen de fondo -->
+          <div class="absolute inset-0">
+              <img class="w-full h-full object-cover filter blur-sm" src="/assets/marvel-comics.jpg" alt="fondo Marvel">
+          </div>
+          <!-- Contenedor del título con degradado -->
+          <div class="relative bg-red-600 p-4 rounded-full">
+              <h1 class="text-5xl font-bold text-white">ADA COMICS</h1>
+          </div>
+      </header>
 
-    <main  class="bg-gradient-to-r from-yellow-200 to-yellow-400 min-h-screen p-6">
-        <div>
-            <h2 class="text-4xl font-bold mb-4 mt-8 ml-8">Búsqueda</h2> 
-            <div class="container-search flex flex-col md:flex-col lg:flex-row pr-4 md:p-0">
-              <!-- input busqueda -->
-              <div class="input-search-container md:pr-0 pr-4 mr-8 ">
-                <i class="fas fa-search w-5 h-5 text-xl mr-2"></i>
-                <input class="w-full md:w-3/4 px-2" type="text" name="input-search" id="input-search" placeholder="Ingresá tu búsqueda" />
-              </div>
-    
-              <!-- selectores y botón -->
-              <div class="input-search-container no-change-color md:pr-0 pr-4">
-                <div class="filter-container ml-8 mt-10 md:mt-10 lg:mt-3 flex items-center flex-col md:flex-row md:pr-0 pr-6">
-                  <div class="pb-3  ml-32">
-                    <label for="type">TIPO</label>
-                    <select class="sort-gral sort-type" name="type" id="marvel-select">
-                      <option value="COMICS" selected>COMICS</option>
-                      <option value="PERSONAJES">PERSONAJES</option>
-                    </select>
+      <main  class="bg-gradient-to-r from-yellow-200 to-yellow-400 min-h-screen p-6">
+          <div class="search">
+              <h2 class="text-4xl font-bold mb-4 mt-8 ml-8">Búsqueda</h2> 
+              <div class="container-search flex flex-col md:flex-col lg:flex-row pr-4 md:p-0">
+                <!-- input busqueda -->
+                <div class="input-search-container md:pr-0 pr-4 mr-8 ">
+                  <i class="fas fa-search w-5 h-5 text-xl mr-2"></i>
+                  <input class="w-full md:w-3/4 px-2" type="text" name="input-search" id="input-search" placeholder="Ingresá tu búsqueda" />
+                </div>
+      
+                <!-- selectores y botón -->
+                <div class="input-search-container no-change-color md:pr-0 pr-4">
+                  <div class="filter-container ml-8 mt-10 md:mt-10 lg:mt-3 flex items-center flex-col md:flex-row md:pr-0 pr-6">
+                    <div class="pb-3  ml-32">
+                      <label for="type">TIPO</label>
+                      <select class="sort-gral sort-type" name="type" id="marvel-select">
+                        <option value="COMICS" selected>COMICS</option>
+                        <option value="PERSONAJES">PERSONAJES</option>
+                      </select>
+                    </div>
+                    <div class="pb-3 ml-8">
+                      <label for="order">ORDEN</label>
+                      <select class="sort-gral" name="order" id="sort-order">
+                        <option value="A-Z">A-Z</option>
+                        <option value="Z-A">Z-A</option>
+                      </select>
+                    </div>
+                    <button id="btn-search" class="btn-search mb-5">BUSCAR</button>
                   </div>
-                  <div class="pb-3 ml-8">
-                    <label for="order">ORDEN</label>
-                    <select class="sort-gral" name="order" id="sort-order">
-                      <option value="A-Z">A-Z</option>
-                      <option value="Z-A">Z-A</option>
-                    </select>
-                  </div>
-                  <button id="btn-search" class="btn-search mb-5">BUSCAR</button>
                 </div>
               </div>
-            </div>
 
-            <!-- resultado busquedas  -->
-            <h2 class="text-4xl font-bold mb-4 mt-20 ml-8">Resultados</h2> 
-            <p id="total-results" class="text-center text-lg font-bold mb-4"></p>
-            <div id="loader" class="flex justify-center items-center">
-                <div class="custom-loader"></div>
-            </div>
-            <div id="cards-container" class="flex flex-wrap justify-center gap-6 p-5">
-                <div class="card">
-                    <img class="w-full h-72 object-fill" alt="card para comics" >
-                    <h3 class="text-lg mt-3 font-bold font-serif uppercase">/h3>
-                </div>
-            </div>
-            <!-- Contenedor de Paginación -->
-            <div id="pagination" class="flex justify-center items-center gap-2 pt-24">
-              <!-- Botón Primera Página -->
-              <button id="first-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class="fas fa-angle-double-left text-4xl"></i>
-              </button>
-              <!-- Botón Página Anterior -->
-              <button id="previous-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class="fas fa-angle-left text-4xl"></i>
-              </button>
-              <!-- Botón Página Siguiente -->
-              <button id="next-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class="fas fa-angle-right text-4xl"></i>
-              </button>
-              <!-- Botón Última Página -->
-              <button id="last-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                <i class="fas fa-angle-double-right text-4xl"></i>
-              </button>
-            </div>
-        </div>
+              
+              
+          </div>
+
+          <div>
+            <section class="comic-section hidden justify-center mt-20">
+                <div class="flex flex-col md:flex-row justify-center">
+                <img src="" alt="Comic Cover" class="comic-cover w-80  h-auto object-cover rounded-lg shadow-md" />
+                  <div class="comic-details mt-4 md:mt-0 md:ml-12">
+                      <h2 class="comic-title text-2xl font-semibold"></h2>
+                      <div class="mt-2">
+                          <h3 class="text-lg font-semibold">Publicado:</h3>
+                          <p class="comic-published text-gray-700"></p>
+                      </div>
+                      <div class="mt-2">
+                          <h3 class="text-lg font-semibold">Guionistas:</h3>
+                          <p class="comic-writers text-gray-700"></p>
+                      </div>
+                      <div class="mt-2">
+                          <h3 class="text-lg font-semibold">Descripción:</h3>
+                          <p class="comic-description text-gray-700"></p>
+                      </div>
+                  </div>
+              </div>
+          </section>
+            <section class="results-section">
+              <!-- resultado busquedas  -->
+              <h2 class="text-4xl font-bold mb-4 mt-20 ml-8">Resultados</h2> 
+              <p id="total-results" class="text-center text-lg font-bold mb-4"></p>
+              <div id="loader" class="flex justify-center items-center">
+                  <div class="custom-loader"></div>
+              </div>
+              <div id="cards-container" class="flex flex-wrap justify-center gap-6 p-5">
+                  <div class="card">
+                      <img src="" class="w-full h-72 object-fill" alt="card para comics" >
+                      <h3 class="text-lg mt-3 font-bold font-serif uppercase"></h3>
+                  </div>
+              </div>
+              <!-- Contenedor de Paginación -->
+              <div id="pagination" class="flex justify-center items-center gap-2 pt-24">
+                <!-- Botón Primera Página -->
+                <button id="first-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <i class="fas fa-angle-double-left text-4xl"></i>
+                </button>
+                <!-- Botón Página Anterior -->
+                <button id="previous-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <i class="fas fa-angle-left text-4xl"></i>
+                </button>
+                <!-- Botón Página Siguiente -->
+                <button id="next-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <i class="fas fa-angle-right text-4xl"></i>
+                </button>
+                <!-- Botón Última Página -->
+                <button id="last-page" class="bg-black text-white p-1 hover:bg-gray-600 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                  <i class="fas fa-angle-double-right text-4xl"></i>
+                </button>
+              </div>
+            </section>
+          </div>
       </main>
-      <footer class="footer-comic">
-        <p class="footer-text">Hecho con ❤️ por Romina</p>
-      </footer>
-    </main>
-    <script src="main.js"></script>
-</body>
-</html>
+        <footer class="footer-comic">
+          <p class="footer-text">Hecho con ❤️ por Romina</p>
+        </footer>
+      </main>
+      <script src="main.js"></script>
+  </body>
+  </html>

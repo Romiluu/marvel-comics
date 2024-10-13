@@ -14,6 +14,9 @@ const btnFirst = document.getElementById("first-page");
 const btnPrevious = document.getElementById("previous-page");
 const btnNext = document.getElementById("next-page");
 const btnLast = document.getElementById("last-page");
+// Selecciona la sección de cómics
+const comicSection = document.querySelector(".comic-section"); 
+const resultsSection = document.querySelector(".results-section"); 
 
 // TOTAL RESULTADOS
 const total = document.getElementById("total-results");
@@ -30,6 +33,11 @@ function createCard(card) {
 
     const cardName = document.createElement("h3");
     cardName.textContent = card.name || card.title;
+
+     // Agregar evento de clic en la tarjeta
+    cardItem.addEventListener("click", () => {
+      loadComicsContent(card); // Llama a la función para mostrar los detalles del cómic
+  });
 
     cardItem.appendChild(cardImg);
     cardItem.appendChild(cardName);
@@ -103,54 +111,56 @@ function updatePaginationButtons() {
 let pageLimit = 20; // Límite de resultados por página
 let currentOffset = 0; // Offset inicial
 
-// Manejadores de eventos para cada botón de paginación
-btnNext.addEventListener("click", () => {
-    currentOffset += pageLimit;
-    const searchValue = document.getElementById("input-search").value.trim();
-    const selectedValue = marvelSelect.value.toUpperCase();
-    if (selectedValue === "PERSONAJES") {
-      loadMarvelContent("characters", searchValue, "name");
-    } else if (selectedValue === "COMICS") {
-      loadMarvelContent("comics", searchValue, "title");
-    }
-    updatePaginationButtons();
-  });
-  
-  btnPrevious.addEventListener("click", () => {
-    if (currentOffset > 0) {
+// Botones de paginación
+btnFirst.addEventListener("click", () => {
+  currentOffset = 0;
+  loadMarvelContent(marvelSelect.value === "COMICS" ? "comics" : "characters");
+});
+
+btnPrevious.addEventListener("click", () => {
+  if (currentOffset > 0) {
       currentOffset -= pageLimit;
-      const searchValue = document.getElementById("input-search").value.trim();
-      const selectedValue = marvelSelect.value.toUpperCase();
-      if (selectedValue === "PERSONAJES") {
-        loadMarvelContent("characters", searchValue, "name");
-      } else if (selectedValue === "COMICS") {
-        loadMarvelContent("comics", searchValue, "title");
-      }
-      updatePaginationButtons();
-    }
-  });
-  
-  btnFirst.addEventListener("click", () => {
-    currentOffset = 0;
-    const searchValue = document.getElementById("input-search").value.trim();
-    const selectedValue = marvelSelect.value.toUpperCase();
-    if (selectedValue === "PERSONAJES") {
-      loadMarvelContent("characters", searchValue, "name");
-    } else if (selectedValue === "COMICS") {
-      loadMarvelContent("comics", searchValue, "title");
-    }
-    updatePaginationButtons();
-  });
-  
-  btnLast.addEventListener("click", () => {
-    const maxOffset = Math.floor((totalResults - 1) / pageLimit) * pageLimit;
-    currentOffset = maxOffset;
-    const searchValue = document.getElementById("input-search").value.trim();
-    const selectedValue = marvelSelect.value.toUpperCase();
-    if (selectedValue === "PERSONAJES") {
-      loadMarvelContent("characters", searchValue, "name");
-    } else if (selectedValue === "COMICS") {
-      loadMarvelContent("comics", searchValue, "title");
-    }
-    updatePaginationButtons();
-  });
+      loadMarvelContent(marvelSelect.value === "COMICS" ? "comics" : "characters");
+  }
+});
+
+btnNext.addEventListener("click", () => {
+  const maxOffset = Math.floor((totalResults - 1) / pageLimit) * pageLimit;
+  if (currentOffset < maxOffset) {
+      currentOffset += pageLimit;
+      loadMarvelContent(marvelSelect.value === "COMICS" ? "comics" : "characters");
+  }
+});
+
+btnLast.addEventListener("click", () => {
+  currentOffset = Math.floor((totalResults - 1) / pageLimit) * pageLimit;
+  loadMarvelContent(marvelSelect.value === "COMICS" ? "comics" : "characters");
+});
+/* ----------------------------------------------------------------------- */
+
+// Función para mostrar los detalles del cómic
+function loadComicsContent(comic) {
+  const coverPath = `${comic.thumbnail.path}.${comic.thumbnail.extension}`;
+  const title = comic.title || "Título no disponible";
+  const published = comic.dates.find(date => date.type === "onsaleDate")?.date || "Fecha no disponible";
+  const writers = comic.creators.items.map(writer => writer.name).join(', ') || "Guionistas no disponibles";
+  const description = comic.description || "Descripción no disponible";
+
+  // Seleccionar los elementos donde se va a insertar el contenido
+  const comicCover = document.querySelector(".comic-cover");
+  const comicTitle = document.querySelector(".comic-title");
+  const comicPublished = document.querySelector(".comic-published");
+  const comicWriters = document.querySelector(".comic-writers");
+  const comicDescription = document.querySelector(".comic-description");
+
+  // Limpiar contenido previo (opcional, ya que el HTML tiene espacio para estos elementos)
+  comicCover.src = coverPath;
+  comicCover.alt = `${title} Cover`;
+  comicTitle.textContent = title;
+  comicPublished.textContent = published;
+  comicWriters.textContent = writers;
+  comicDescription.textContent = description;
+
+  comicSection.classList.remove("hidden"); // Mostrar la sección del cómic
+  resultsSection.classList.add("hidden"); // Ocultar la sección de resultados
+}
