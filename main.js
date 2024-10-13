@@ -7,7 +7,13 @@ const hash = "3625cd0f9789029f5d8d27b459b86464";
 
 // DOM 
 const cardsContainer = document.getElementById("cards-container");
+// Selección de tipo de contenido (personajes o comics) 
 const marvelSelect = document.getElementById("marvel-select");
+// Selección de botones de paginación
+const btnFirst = document.getElementById("first-page");
+const btnPrevious = document.getElementById("previous-page");
+const btnNext = document.getElementById("next-page");
+const btnLast = document.getElementById("last-page");
 
 // TOTAL RESULTADOS
 const total = document.getElementById("total-results");
@@ -37,17 +43,14 @@ function clearCards() {
 // Funcion para obtener personajes o comics
 function loadMarvelContent(endpoint, searchValue = "", searchType = "") {
     clearCards();
-    let url;
     const orderSelect = document.getElementById("sort-order");
     
-    let limit = 20;
-    let offset = 0;
-
+    let url;
     if (searchValue) {
         const searchParameter = `${searchType}StartsWith=${searchValue}`;
-        url = `${apiUrl}${endpoint}?${searchParameter}&orderBy=${orderSelect.value === "A-Z" ? searchType : "-" + searchType}&ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=${limit}&offset=${offset}`;
+        url = `${apiUrl}${endpoint}?${searchParameter}&orderBy=${orderSelect.value === "A-Z" ? searchType : "-" + searchType}&ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=${pageLimit}&offset=${currentOffset}`;
     } else {
-        url = `${apiUrl}${endpoint}?orderBy=${orderSelect.value === "A-Z" ? searchType : "-" + searchType}&ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=${limit}&offset=${offset}`;
+        url = `${apiUrl}${endpoint}?orderBy=${orderSelect.value === "A-Z" ? searchType : "-" + searchType}&ts=${ts}&apikey=${publicKey}&hash=${hash}&limit=${pageLimit}&offset=${currentOffset}`;
     }
 
     showLoader();
@@ -60,6 +63,7 @@ function loadMarvelContent(endpoint, searchValue = "", searchType = "") {
             let results = data.data.results;
             results.forEach((card) => createCard(card));
             hideLoader();
+            updatePaginationButtons(); // Actualiza el estado de los botones
         })
         .catch((error) => console.error("Error al obtener los datos:", error));
 }
@@ -86,3 +90,67 @@ function hideLoader() {
 // Cargar comics al iniciar
 window.onload = () => loadMarvelContent("comics");
 
+
+// Función para habilitar o deshabilitar los botones de paginación
+function updatePaginationButtons() {
+    const maxOffset = Math.floor((totalResults - 1) / pageLimit) * pageLimit;
+    btnFirst.disabled = currentOffset === 0;
+    btnPrevious.disabled = currentOffset === 0;
+    btnNext.disabled = currentOffset >= maxOffset;
+    btnLast.disabled = currentOffset >= maxOffset;
+}
+
+let pageLimit = 20; // Límite de resultados por página
+let currentOffset = 0; // Offset inicial
+
+// Manejadores de eventos para cada botón de paginación
+btnNext.addEventListener("click", () => {
+    currentOffset += pageLimit;
+    const searchValue = document.getElementById("input-search").value.trim();
+    const selectedValue = marvelSelect.value.toUpperCase();
+    if (selectedValue === "PERSONAJES") {
+      loadMarvelContent("characters", searchValue, "name");
+    } else if (selectedValue === "COMICS") {
+      loadMarvelContent("comics", searchValue, "title");
+    }
+    updatePaginationButtons();
+  });
+  
+  btnPrevious.addEventListener("click", () => {
+    if (currentOffset > 0) {
+      currentOffset -= pageLimit;
+      const searchValue = document.getElementById("input-search").value.trim();
+      const selectedValue = marvelSelect.value.toUpperCase();
+      if (selectedValue === "PERSONAJES") {
+        loadMarvelContent("characters", searchValue, "name");
+      } else if (selectedValue === "COMICS") {
+        loadMarvelContent("comics", searchValue, "title");
+      }
+      updatePaginationButtons();
+    }
+  });
+  
+  btnFirst.addEventListener("click", () => {
+    currentOffset = 0;
+    const searchValue = document.getElementById("input-search").value.trim();
+    const selectedValue = marvelSelect.value.toUpperCase();
+    if (selectedValue === "PERSONAJES") {
+      loadMarvelContent("characters", searchValue, "name");
+    } else if (selectedValue === "COMICS") {
+      loadMarvelContent("comics", searchValue, "title");
+    }
+    updatePaginationButtons();
+  });
+  
+  btnLast.addEventListener("click", () => {
+    const maxOffset = Math.floor((totalResults - 1) / pageLimit) * pageLimit;
+    currentOffset = maxOffset;
+    const searchValue = document.getElementById("input-search").value.trim();
+    const selectedValue = marvelSelect.value.toUpperCase();
+    if (selectedValue === "PERSONAJES") {
+      loadMarvelContent("characters", searchValue, "name");
+    } else if (selectedValue === "COMICS") {
+      loadMarvelContent("comics", searchValue, "title");
+    }
+    updatePaginationButtons();
+  });
