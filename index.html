@@ -74,9 +74,23 @@
                           <h3 class="text-lg font-semibold">Descripción:</h3>
                           <p class="comic-description text-gray-700"></p>
                       </div>
+                      <div class="comic-characters mt-4 ">
+                        <h3 class="text-lg font-semibold mb-4">Personajes</h3>
+                        <p class="character-count"></p>
+                        <div class="character-cards flex flex-wrap gap-4">
+                            <!-- Las tarjetas de personajes se agregarán aquí con JavaScript -->
+                        </div>
+                    </div>  
                   </div>
               </div>
-          </section>
+            </section>
+            <section class="character-section hidden flex flex-col lg:flex-row items-center justify-center bg-white p-8 lg:mx-48 rounded-md shadow-md mt-12">
+              <img src="" alt="Character Portrait" class="character-portrait w-72 h-72 lg:w-96 lg:h-96 object-cover rounded-full border-2 border-gray-300 shadow-lg lg:mr-8" />
+              <div class="character-details text-center lg:text-left mt-6 lg:mt-0">
+                <h2 class="character-name text-2xl lg:text-3xl font-bold text-gray-800 mb-4"></h2>
+                <p class="character-description text-base lg:text-lg text-gray-600"></p>
+              </div>
+            </section>
             <section class="results-section">
               <!-- resultado busquedas  -->
               <h2 class="text-4xl font-bold mb-4 mt-20 ml-8">Resultados</h2> 
